@@ -1,0 +1,18 @@
+/**
+ * Application Entry Point
+ * 
+ * Initializes React application and renders root component
+ */
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import App from './App.tsx'
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <App />
+  </StrictMode>,
+)
+
+// Made with Bob

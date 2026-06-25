@@ -1,0 +1,131 @@
+# ============================================================================
+# DOCKER COMPOSE CONFIGURATION
+# ============================================================================
+# This file defines all services needed to run the AI Resume Analyzer.
+#
+# SERVICES:
+# - backend: FastAPI application
+# - frontend: React application (to be added)
+#
+# USAGE:
+#   docker-compose up -d        # Start all services
+#   docker-compose logs -f      # View logs
+#   docker-compose down         # Stop all services
+#
+# INTERVIEW TIP:
+# "I use Docker Compose to orchestrate multiple services, making it easy
+#  to deploy the entire application with a single command."
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ==========================================================================
+  # BACKEND SERVICE (FastAPI)
+  # ==========================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: resume-analyzer-backend
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+    environment:
+      # AI Provider Configuration
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL:-http://host.docker.internal:11434}
+      - DEFAULT_AI_PROVIDER=${DEFAULT_AI_PROVIDER:-openai}
+      
+      # Server Configuration
+      - BACKEND_PORT=8000
+      - ENVIRONMENT=${ENVIRONMENT:-production}
+      - DEBUG=${DEBUG:-false}
+      
+      # File Upload
+      - MAX_FILE_SIZE_MB=${MAX_FILE_SIZE_MB:-10}
+      - ALLOWED_EXTENSIONS=${ALLOWED_EXTENSIONS:-pdf,docx}
+      
+      # CORS
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000}
+    volumes:
+      - ./backend/uploads:/app/uploads
+      - ./backend/logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - resume-analyzer-network
+
+  # ==========================================================================
+  # FRONTEND SERVICE (React)
+  # ==========================================================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: resume-analyzer-frontend
+    ports:
+      - "${FRONTEND_PORT:-3000}:80"
+    environment:
+      - VITE_API_BASE_URL=http://localhost:8000
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - resume-analyzer-network
+
+# ============================================================================
+# NETWORKS
+# ============================================================================
+networks:
+  resume-analyzer-network:
+    driver: bridge
+
+# ============================================================================
+# VOLUMES
+# ============================================================================
+volumes:
+  backend-uploads:
+  backend-logs:
+
+# ============================================================================
+# NOTES FOR INTERVIEWS
+# ============================================================================
+# KEY POINTS TO MENTION:
+#
+# 1. DOCKER COMPOSE BENEFITS:
+#    - Single command deployment
+#    - Service orchestration
+#    - Environment isolation
+#    - Easy scaling
+#
+# 2. CONFIGURATION:
+#    - Environment variables from .env
+#    - Configurable ports
+#    - Volume mounts for persistence
+#    - Health checks for reliability
+#
+# 3. NETWORKING:
+#    - Services communicate via network
+#    - Isolated from host
+#    - Can add more services easily
+#
+# 4. PRODUCTION READY:
+#    - Health checks
+#    - Restart policies
+#    - Resource limits (can be added)
+#    - Logging configuration
+#
+# 5. EXTENSIBILITY:
+#    - Easy to add database
+#    - Easy to add Redis cache
+#    - Easy to add monitoring
+#    - Easy to add load balancer
+# ============================================================================
+
+# Made with Bob

@@ -1,0 +1,208 @@
+# ============================================================================
+# AI RESUME ANALYZER - GIT IGNORE FILE
+# ============================================================================
+# This file tells Git which files/folders to ignore (not track)
+# Important for security and keeping repository clean
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# ENVIRONMENT & SECRETS
+# ----------------------------------------------------------------------------
+# NEVER commit these - they contain API keys and secrets!
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# ----------------------------------------------------------------------------
+# PYTHON
+# ----------------------------------------------------------------------------
+# Python bytecode files (compiled Python)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments (where packages are installed)
+venv/
+env/
+ENV/
+.venv/
+
+# Python distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# mypy (type checker)
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# ----------------------------------------------------------------------------
+# NODE.JS / REACT
+# ----------------------------------------------------------------------------
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Production build
+/frontend/build
+/frontend/dist
+
+# Testing
+/frontend/coverage
+
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ----------------------------------------------------------------------------
+# UPLOADED FILES
+# ----------------------------------------------------------------------------
+# Don't commit user-uploaded resumes (privacy!)
+uploads/
+temp/
+*.pdf
+*.docx
+*.doc
+
+# But keep the directory structure
+!uploads/.gitkeep
+!temp/.gitkeep
+
+# ----------------------------------------------------------------------------
+# LOGS
+# ----------------------------------------------------------------------------
+# Log files can get large
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ----------------------------------------------------------------------------
+# IDE / EDITOR
+# ----------------------------------------------------------------------------
+# VSCode
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ----------------------------------------------------------------------------
+# OPERATING SYSTEM
+# ----------------------------------------------------------------------------
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ----------------------------------------------------------------------------
+# DOCKER
+# ----------------------------------------------------------------------------
+# Docker volumes
+docker-compose.override.yml
+
+# ----------------------------------------------------------------------------
+# DATABASE
+# ----------------------------------------------------------------------------
+# SQLite databases (if you add database support)
+*.db
+*.sqlite
+*.sqlite3
+
+# ----------------------------------------------------------------------------
+# TEMPORARY FILES
+# ----------------------------------------------------------------------------
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# ----------------------------------------------------------------------------
+# NOTES FOR INTERVIEWS
+# ----------------------------------------------------------------------------
+# Be ready to explain:
+# 1. Why we ignore __pycache__ (compiled Python, regenerated automatically)
+# 2. Why we ignore .env (contains secrets, security risk)
+# 3. Why we ignore node_modules (huge, can be reinstalled)
+# 4. Why we ignore uploads (user privacy, large files)
+# 5. Why we keep .gitkeep (preserve empty directory structure)
+# 6. Why we ignore IDE files (personal preferences, not project code)
+# ============================================================================
+
+# Made with Bob
