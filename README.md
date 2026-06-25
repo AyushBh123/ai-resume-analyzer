@@ -1,351 +1,214 @@
-# 🎯 AI Resume Analyzer
+# AI Resume Analyzer
 
-An intelligent resume analysis tool powered by multiple AI providers (OpenAI GPT-4, Anthropic Claude, and local LLMs). Analyzes resumes, compares them against job descriptions, and provides actionable improvement suggestions.
+An intelligent resume analysis tool powered by multiple AI providers. Upload a PDF or DOCX resume, optionally paste a job description, and get an instant AI-powered score, keyword analysis, ATS compatibility check, and actionable improvement suggestions.
 
+[![CI/CD](https://github.com/AyushBh123/ai-resume-analyzer/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/AyushBh123/ai-resume-analyzer/actions/workflows/ci-cd.yml)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)
-![React](https://img.shields.io/badge/React-18+-61DAFB.svg)
-![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6.svg)
+![React](https://img.shields.io/badge/React-19+-61DAFB.svg)
+![TypeScript](https://img.shields.io/badge/TypeScript-6+-3178C6.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## 🌟 Features
+## Live Demo
 
-### Core Functionality
-- ✅ **Multi-Format Support**: Parse PDF and DOCX resumes
-- ✅ **AI-Powered Analysis**: Intelligent extraction and analysis using GPT-4 or Claude
-- ✅ **Job Matching**: Compare resumes against job descriptions
-- ✅ **ATS Compatibility**: Check Applicant Tracking System compatibility
-- ✅ **Improvement Suggestions**: Get actionable feedback to improve your resume
-- ✅ **Keyword Analysis**: Identify missing keywords and optimize content
-- ✅ **Multi-Provider Support**: Choose between OpenAI, Anthropic, or local LLMs
+| | URL |
+|---|---|
+| **App** | https://ai-resume-analyzer-ayush.vercel.app |
+| **API** | https://ai-resume-analyzer-api-h9aw.onrender.com |
+| **API Docs** | https://ai-resume-analyzer-api-h9aw.onrender.com/docs |
 
-### Technical Highlights
-- 🏗️ **Clean Architecture**: Modular, maintainable codebase
-- 🔌 **Adapter Pattern**: Easy to add new AI providers
-- 🔒 **Type Safety**: Full type hints with Pydantic models
-- 📝 **Comprehensive Documentation**: Every file extensively commented
-- 🧪 **Test Coverage**: Unit and integration tests (coming soon)
-- 🐳 **Docker Ready**: Containerized for easy deployment
+> **Note:** The backend runs on Render's free tier and may take ~30 seconds to wake up after inactivity.
 
-## 🏛️ Architecture
+## Features
+
+- **Multi-Format Support** — Upload PDF or DOCX resumes
+- **AI-Powered Analysis** — Extracts structured data and scores your resume using GPT-4 / Claude / local LLMs
+- **Job Matching** — Paste a job description to get a tailored match score and missing keywords
+- **ATS Compatibility** — Checks if your resume will pass Applicant Tracking Systems
+- **Improvement Suggestions** — Prioritised, actionable feedback (critical → low)
+- **Multi-Provider** — Switch between OpenAI, Anthropic Claude, or Ollama (local)
+
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        Frontend (React)                      │
-│  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐   │
-│  │  Upload  │  │   Job    │  │ Results  │  │ Settings │   │
-│  │Component │  │  Input   │  │Dashboard │  │          │   │
-│  └──────────┘  └──────────┘  └──────────┘  └──────────┘   │
-└─────────────────────────────────────────────────────────────┘
-                            │
-                    REST API (FastAPI)
-                            │
-┌─────────────────────────────────────────────────────────────┐
-│                      Backend Services                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
-│  │   Document   │  │      AI      │  │   Analysis   │     │
-│  │   Parsers    │  │   Providers  │  │    Engine    │     │
-│  │              │  │              │  │              │     │
-│  │ • PDF        │  │ • OpenAI     │  │ • Scoring    │     │
-│  │ • DOCX       │  │ • Anthropic  │  │ • Matching   │     │
-│  │              │  │ • Ollama     │  │ • Suggestions│     │
-│  └──────────────┘  └──────────────┘  └──────────────┘     │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│           Frontend (React + Vite)        │
+│   FileUpload → Analyze → Results Dashboard│
+└──────────────────┬──────────────────────┘
+                   │ REST API
+┌──────────────────▼──────────────────────┐
+│           Backend (FastAPI)              │
+│  ┌────────────┐  ┌──────────────────┐   │
+│  │  Parsers   │  │   AI Providers   │   │
+│  │ PDF / DOCX │  │ OpenAI (OpenRouter│   │
+│  └────────────┘  │ Anthropic / Ollama│   │
+│                  └──────────────────┘   │
+│  ┌──────────────────────────────────┐   │
+│  │     Analysis Engine              │   │
+│  │  Scoring · Matching · Suggestions│   │
+│  └──────────────────────────────────┘   │
+└─────────────────────────────────────────┘
 ```
 
-## 🚀 Quick Start
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | React 19, TypeScript 6, Vite, Tailwind CSS, Recharts |
+| Backend | Python 3.11, FastAPI, Pydantic v2, Uvicorn |
+| AI | OpenAI / OpenRouter, Anthropic Claude, Ollama |
+| Parsing | pdfplumber, PyPDF2, python-docx |
+| Deployment | Vercel (frontend), Render (backend) |
+| CI/CD | GitHub Actions (test → lint → docker build → deploy) |
+
+## Local Development
 
 ### Prerequisites
 - Python 3.11+
-- Node.js 18+
-- OpenAI API key OR Anthropic API key OR Ollama installed
+- Node.js 20+
+- An API key from [OpenAI](https://platform.openai.com/api-keys), [Anthropic](https://console.anthropic.com/), or [OpenRouter](https://openrouter.ai/keys)
 
-### Installation
+### Setup
 
-1. **Clone the repository**
+**1. Clone**
 ```bash
-git clone https://github.com/yourusername/ai-resume-analyzer.git
+git clone https://github.com/AyushBh123/ai-resume-analyzer.git
 cd ai-resume-analyzer
 ```
 
-2. **Set up backend**
+**2. Backend**
 ```bash
 cd backend
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-3. **Configure environment**
+**3. Environment**
 ```bash
 cp .env.example .env
-# Edit .env and add your API keys
+# Edit .env — add at minimum:
+# OPENAI_API_KEY=sk-...
+# DEFAULT_AI_PROVIDER=openai
 ```
 
-4. **Run backend**
+**4. Run backend**
 ```bash
 uvicorn app.main:app --reload
+# → http://localhost:8000
+# → http://localhost:8000/docs
 ```
 
-5. **Set up frontend** (in a new terminal)
+**5. Frontend** (new terminal)
 ```bash
 cd frontend
 npm install
 npm run dev
+# → http://localhost:3000
 ```
 
-6. **Access the application**
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:8000
-- API Docs: http://localhost:8000/docs
+### Using OpenRouter (instead of direct OpenAI)
+Add these to your `.env`:
+```env
+OPENAI_API_KEY=sk-or-v1-...
+OPENAI_BASE_URL=https://openrouter.ai/api/v1
+OPENAI_MODEL=openai/gpt-4o-mini
+```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ai-resume-analyzer/
 ├── backend/
 │   ├── app/
-│   │   ├── api/              # API routes
-│   │   ├── core/             # Core business logic
-│   │   │   ├── parsers/      # Document parsers (PDF, DOCX)
-│   │   │   ├── ai_providers/ # AI provider adapters
-│   │   │   └── analyzer/     # Analysis engine
-│   │   ├── models/           # Pydantic models
-│   │   ├── utils/            # Utility functions
-│   │   └── config.py         # Configuration
-│   ├── tests/                # Test suite
-│   └── requirements.txt      # Python dependencies
+│   │   ├── api/routes/         # analyze.py · upload.py · health.py
+│   │   ├── core/
+│   │   │   ├── ai_providers/   # base.py · openai · anthropic · ollama
+│   │   │   └── parsers/        # pdf_parser.py · docx_parser.py
+│   │   ├── models/             # resume.py · analysis.py (Pydantic)
+│   │   ├── utils/              # text_processing.py
+│   │   ├── config.py           # Settings (singleton)
+│   │   └── main.py             # FastAPI app entry point
+│   ├── tests/                  # 37 unit + integration tests
+│   └── requirements.txt
 ├── frontend/
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   ├── services/         # API services
-│   │   └── types/            # TypeScript types
-│   └── package.json          # Node dependencies
-├── docker-compose.yml        # Docker configuration
-└── README.md                 # This file
+│   └── src/
+│       ├── components/         # FileUpload · AnalysisResults · ScoreCard · SuggestionsList
+│       ├── services/api.ts     # All HTTP calls to backend
+│       └── types/api.ts        # TypeScript type definitions
+├── render.yaml                 # Render deployment config
+├── Procfile                    # Heroku fallback
+├── docker-compose.yml          # Local full-stack Docker setup
+└── .github/workflows/ci-cd.yml # CI pipeline
 ```
 
-## 🔧 Configuration
+## Key Design Patterns
 
-### Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-# AI Provider (choose one or more)
-OPENAI_API_KEY=sk-...
-ANTHROPIC_API_KEY=sk-ant-...
-OLLAMA_BASE_URL=http://localhost:11434
-
-# Default provider
-DEFAULT_AI_PROVIDER=openai  # or anthropic, ollama
-
-# Server configuration
-BACKEND_PORT=8000
-FRONTEND_PORT=3000
-
-# File upload
-MAX_FILE_SIZE_MB=10
-ALLOWED_EXTENSIONS=pdf,docx
-
-# Analysis settings
-ENABLE_ATS_CHECK=true
-ENABLE_SKILL_MATCHING=true
-```
-
-## 💻 Usage
-
-### API Example
-
+**Adapter Pattern** — All AI providers implement the same `BaseAIProvider` interface:
 ```python
-import requests
-
-# Upload and analyze resume
-files = {'file': open('resume.pdf', 'rb')}
-data = {'job_description': 'Python developer with 3+ years experience...'}
-
-response = requests.post(
-    'http://localhost:8000/api/v1/analyze',
-    files=files,
-    data=data
-)
-
-result = response.json()
-print(f"Overall Score: {result['overall_score']}")
-print(f"Suggestions: {len(result['suggestions'])}")
+class OpenAIProvider(BaseAIProvider):
+    def analyze_resume(self, request: AnalysisRequest) -> AnalysisResponse: ...
+    def extract_resume_data(self, text: str) -> dict: ...
+    def compare_with_job(self, resume: str, jd: str) -> dict: ...
+    def generate_suggestions(self, text: str, data: dict) -> list: ...
 ```
+Adding a new AI provider = create one class, implement four methods.
 
-### Python SDK Example
-
+**Singleton Pattern** — Config loaded once from `.env`, reused everywhere:
 ```python
-from app.core.parsers import parse_resume
-from app.core.ai_providers import OpenAIProvider
-
-# Parse resume
-result = parse_resume("resume.pdf")
-resume_text = result["text"]
-
-# Analyze with AI
-provider = OpenAIProvider(api_key="your-key")
-analysis = provider.analyze_resume(resume_text)
-
-print(analysis)
+settings = get_settings()   # reads .env once, cached globally
 ```
 
-## 🎨 Key Design Patterns
-
-### 1. Adapter Pattern (AI Providers)
-```python
-# Easy to add new providers
-class NewAIProvider(BaseAIProvider):
-    def analyze_resume(self, request):
-        # Implementation
-        pass
+**Strategy Pattern** — Weighted scoring across independent dimensions:
+```
+Overall Score = content×25% + experience×20% + education×15%
+              + skills×15% + keywords×10% + formatting×10% + ats×5%
 ```
 
-### 2. Factory Pattern (Provider Creation)
-```python
-def get_provider(provider_name: str):
-    if provider_name == "openai":
-        return OpenAIProvider(api_key=...)
-    elif provider_name == "anthropic":
-        return AnthropicProvider(api_key=...)
-```
-
-### 3. Strategy Pattern (Different Analysis Strategies)
-```python
-# Different scoring strategies
-class ATSScorer:
-    def score(self, resume): ...
-
-class ContentScorer:
-    def score(self, resume): ...
-```
-
-## 🧪 Testing
+## Testing
 
 ```bash
-# Run all tests
-pytest
-
-# Run with coverage
-pytest --cov=app --cov-report=html
-
-# Run specific test file
-pytest tests/test_parsers.py
+cd backend
+source venv/bin/activate
+pytest tests/ -v          # run all 37 tests
 ```
 
-## 🐳 Docker Deployment
+## Docker
 
 ```bash
-# Build and run with Docker Compose
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
+docker compose up -d       # start both services
+docker compose logs -f     # tail logs
+docker compose down        # stop
 ```
 
-## 📊 Performance
+## Deployment
 
-- **Resume Parsing**: < 2 seconds for typical resume
-- **AI Analysis**: 5-15 seconds (depends on provider and model)
-- **Supported File Size**: Up to 10MB
-- **Concurrent Requests**: Handles 100+ concurrent analyses
+| Service | Platform | Auto-deploy |
+|---|---|---|
+| Frontend | Vercel | ✅ on push to `main` |
+| Backend | Render | ✅ on push to `main` |
 
-## 🔒 Security
+Every `git push origin main` deploys both automatically.
 
-- ✅ API keys stored in environment variables
-- ✅ File upload validation
-- ✅ Input sanitization
-- ✅ Rate limiting (configurable)
-- ✅ CORS configuration
-- ✅ No sensitive data logging
+## Environment Variables
 
-## 🛣️ Roadmap
+| Variable | Required | Description |
+|---|---|---|
+| `OPENAI_API_KEY` | Yes (one of three) | OpenAI or OpenRouter key |
+| `OPENAI_BASE_URL` | No | Set to `https://openrouter.ai/api/v1` for OpenRouter |
+| `OPENAI_MODEL` | No | Default: `gpt-4-turbo-preview` |
+| `ANTHROPIC_API_KEY` | Yes (one of three) | Anthropic Claude key |
+| `OLLAMA_BASE_URL` | Yes (one of three) | Default: `http://localhost:11434` |
+| `DEFAULT_AI_PROVIDER` | Yes | `openai`, `anthropic`, or `ollama` |
+| `CORS_ORIGINS` | Yes | Comma-separated frontend URLs |
+| `MAX_FILE_SIZE_MB` | No | Default: `10` |
 
-- [ ] Batch resume processing
-- [ ] Resume template generation
-- [ ] Historical analysis tracking
-- [ ] Resume comparison tool
-- [ ] Integration with job boards
-- [ ] Mobile app
-- [ ] Chrome extension
+## Author
 
-## 🤝 Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👨‍💻 Author
-
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your Name](https://linkedin.com/in/yourprofile)
-- Portfolio: [yourwebsite.com](https://yourwebsite.com)
-
-## 🙏 Acknowledgments
-
-- OpenAI for GPT-4 API
-- Anthropic for Claude API
-- FastAPI framework
-- React community
-- All contributors
-
-## 📧 Contact
-
-For questions or feedback, please open an issue or contact [your.email@example.com](mailto:your.email@example.com)
+**Ayush Bhardwaj**
+- GitHub: [@AyushBh123](https://github.com/AyushBh123)
+- Email: ayushcar4@gmail.com
 
 ---
 
-## 🎓 For Interviewers
-
-This project demonstrates:
-
-### Technical Skills
-- **Backend**: Python, FastAPI, Pydantic, async programming
-- **Frontend**: React, TypeScript, modern UI/UX
-- **AI/ML**: OpenAI API, Anthropic API, prompt engineering
-- **Architecture**: Clean architecture, design patterns, SOLID principles
-- **DevOps**: Docker, environment configuration, deployment
-
-### Design Patterns
-- **Adapter Pattern**: Multiple AI provider support
-- **Factory Pattern**: Provider instantiation
-- **Singleton Pattern**: Configuration management
-- **Strategy Pattern**: Different analysis approaches
-
-### Best Practices
-- **Type Safety**: Full type hints, Pydantic models
-- **Documentation**: Extensive comments, docstrings
-- **Error Handling**: Comprehensive error management
-- **Testing**: Unit and integration tests
-- **Security**: API key management, input validation
-- **Scalability**: Modular design, easy to extend
-
-### Problem-Solving
-- **Document Parsing**: Handling different formats (PDF, DOCX)
-- **AI Integration**: Working with multiple AI APIs
-- **Data Extraction**: Structured data from unstructured text
-- **User Experience**: Intuitive interface, clear feedback
-
-### Code Quality
-- **Clean Code**: Readable, maintainable
-- **DRY Principle**: No code duplication
-- **SOLID Principles**: Well-structured classes
-- **Comments**: Explains "why", not just "what"
-
----
-
-**⭐ If you find this project helpful, please give it a star!**
+⭐ If you find this project useful, please give it a star!
