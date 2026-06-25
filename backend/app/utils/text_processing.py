@@ -443,6 +443,36 @@ def extract_contact_info(text: str) -> Dict[str, Any]:
     }
 
 
+def extract_emails(text: str) -> List[str]:
+    """Extract email addresses from text."""
+    return TextProcessor().extract_emails(text)
+
+
+def extract_phone_numbers(text: str) -> List[str]:
+    """Extract phone numbers from text."""
+    return TextProcessor().extract_phone_numbers(text)
+
+
+def extract_urls(text: str) -> List[str]:
+    """Extract URLs from text as a flat list."""
+    urls_dict = TextProcessor().extract_urls(text)
+    # flatten the dict of lists into a single list
+    result = []
+    for v in urls_dict.values():
+        result.extend(v)
+    return result
+
+
+def extract_keywords(text: str) -> List[str]:
+    """Extract keywords from text."""
+    return list(TextProcessor().extract_keywords(text))
+
+
+def identify_sections(text: str) -> Dict[str, Any]:
+    """Identify resume sections in text."""
+    return TextProcessor().identify_sections(text)
+
+
 # ============================================================================
 # NOTES FOR INTERVIEWS
 # ============================================================================
