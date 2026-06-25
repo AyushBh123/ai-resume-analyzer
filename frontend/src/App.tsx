@@ -5,7 +5,7 @@
  * Manages state for file upload, analysis, and results display
  */
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FileText, Settings, Sparkles } from 'lucide-react';
 import FileUpload from './components/FileUpload';
 import AnalysisResults from './components/AnalysisResults';

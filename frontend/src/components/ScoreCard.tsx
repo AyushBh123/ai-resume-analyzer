@@ -5,11 +5,9 @@
  * Uses Recharts for data visualization
  */
 
-import React from 'react';
 import {
   RadialBarChart,
   RadialBar,
-  Legend,
   ResponsiveContainer,
   PolarAngleAxis,
 } from 'recharts';
